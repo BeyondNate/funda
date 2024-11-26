@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimizly</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        label, input, select, textarea {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Optimizly: Tu agenda organizadora</h1>
+    <h2>Contactos</h2>
+    <form action="/main" method="POST">
+        <input type="hidden" name="form_type" value="contact">
+        <label>Nombre:</label>
+        <input type="text" name="contact_name" placeholder="Nombre del contacto" required>
+        <label>Correo:</label>
+        <input type="email" name="contact_email" placeholder="Correo del contacto" required>
+        <button type="submit">Agregar Contacto</button>
+    </form>
+    <h2>Tareas</h2>
+    <form action="/main" method="POST">
+        <input type="hidden" name="form_type" value="task">
+        <label>Asignar a:</label>
+        <select name="contact_id" required>
+            {% for contact in contacts %}
+                <option value="{{ contact[0] }}">{{ contact[1] }}</option>
+            {% endfor %}
+        </select>
+        <label>Título:</label>
+        <input type="text" name="task_title" placeholder="Título de la tarea" required>
+        <label>Prioridad:</label>
+        <select name="task_priority" required>
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+        </select>
+        <label>Descripción:</label>
+        <textarea name="task_description" placeholder="Descripción de la tarea" required></textarea>
+        <button type="submit">Agregar Tarea</button>
+    </form>
+    <div>
+        <h2>Lista de Tareas</h2>
+        {% for task in tasks %}
+        <div class="tarea">
+            <h3>{{ task[1] }}</h3>
+            <p><strong>Asignada a:</strong> {{ task[4] }}</p>
+            <p><strong>Prioridad:</strong> {{ task[2] }}</p>
+            <p><strong>Descripción:</strong> {{ task[3] }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
